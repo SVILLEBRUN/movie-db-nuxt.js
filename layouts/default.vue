@@ -7,9 +7,11 @@
                     MES FILMS
                 </NuxtLink>
 
-                <div class="flex flex-1 items-center justify-end md:justify-between">
-                    <!-- Search bah to come -->
-                    <div class="text-white"></div>
+                <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
+                    <!-- Search bar large media -->
+                    <div class="w-full hidden sm:block">
+                        <BaseSearch v-model="query" @keyup.enter="search()"/>
+                    </div>
                     <div class="flex items-center gap-4">
                         <div class="sm:flex sm:gap-4">
                             <NuxtLink
@@ -46,6 +48,9 @@
                     </div>
                 </div>
             </div>
+            <div class="w-full sm:hidden px-2 mb-2">
+                <BaseSearch v-model="query" @keyup.enter="search()"/>
+            </div>
         </div>
 
         <!-- Main -->
@@ -61,4 +66,22 @@
         </div>
     </div>
 </template>
+
+<script setup >
+const query = ref('');
+
+const router = useRouter()
+
+const search = () => {
+    // Function to search data (person / movie) 
+    console.log(query.value)
+
+    router.push({
+        path: '/search',
+        query: {
+            query: query.value
+        }
+    })
+}
+</script>
 
