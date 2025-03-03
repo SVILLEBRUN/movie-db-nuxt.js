@@ -36,5 +36,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
-
+input::placeholder {
+    opacity: 0.6;
+}
 </style>

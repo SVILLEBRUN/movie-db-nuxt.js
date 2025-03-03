@@ -8,7 +8,7 @@
             <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
                 <!-- Search bar large media -->
                 <div class="w-full hidden sm:block">
-                    <BaseSearch v-model="query" @keyup.enter="search()"/>
+                    <BaseSearch v-model="query" @keyup.enter="search()" placeholder="Rechercher un film"/>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="sm:flex sm:gap-4">
@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="w-full sm:hidden px-2 mb-2">
-            <BaseSearch v-model="query" @keyup.enter="search()"/>
+            <BaseSearch v-model="query" @keyup.enter="search()" placeholder="Rechercher un film"/>
         </div>
     </div>
 </template>
