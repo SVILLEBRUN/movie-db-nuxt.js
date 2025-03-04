@@ -55,7 +55,7 @@
                             class="mt-1"
                             type="email" 
                             icon="ic:baseline-alternate-email" 
-                            icon-size="15"
+                            :icon-size="15"
                             input-class="w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
                             required
                         />

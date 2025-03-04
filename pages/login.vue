@@ -16,7 +16,7 @@
                             v-model="email"
                             type="email" 
                             icon="ic:baseline-alternate-email" 
-                            icon-size="15"
+                            :icon-size="15"
                             input-class="w-full rounded-lg border-gray-200 border px-4 py-3 text-sm"
                             required
                             autofocus
