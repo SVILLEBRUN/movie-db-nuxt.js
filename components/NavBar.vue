@@ -9,7 +9,13 @@
             <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
                 <!-- Search bar large media -->
                 <div class="hidden sm:block flex-grow">
-                    <BaseInput v-model="query" @keyup.enter="search()" placeholder="Rechercher un film" icon="eva:search-outline"/>
+                    <BaseInput 
+                        v-model="query" 
+                        @keyup.enter="search()" 
+                        placeholder="Rechercher un film" 
+                        icon="eva:search-outline"
+                        input-class="bg-white rounded-full py-2 px-3 w-full"
+                    />
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="sm:flex sm:gap-4">
@@ -48,7 +54,13 @@
             </div>
         </div>
         <div class="w-full sm:hidden px-2 mb-2">
-            <BaseInput v-model="query" @keyup.enter="search()" placeholder="Rechercher un film" icon="eva:search-outline"/>
+            <BaseInput 
+                v-model="query" 
+                @keyup.enter="search()" 
+                placeholder="Rechercher un film" 
+                icon="eva:search-outline"
+                input-class="bg-white rounded-full py-1 px-3 w-full"
+            />
         </div>
     </div>
 </template>

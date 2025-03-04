@@ -1,16 +1,16 @@
 <template>
     <div class="relative">
         <input 
-            class="bg-white rounded-full py-1 px-3 w-full"
-            :class="icon ? 'pe-9' : ''"
+            :class="classes"
             :type="type" 
             :placeholder="placeholder"
             :value="modelValue"
             @input="(event) => $emit('update:modelValue', event.target.value)"
         />
 
-        <span v-if="icon" class="absolute inset-y-0 end-0 grid w-10 place-content-center">
-            <Icon :name="icon" size="20" />
+        <span v-if="icon || $slots.icon" class="absolute inset-y-0 end-0 grid w-10 place-content-center">
+            <Icon v-if="icon" :name="icon" size="20" />
+            <slot v-else name="icon" />
         </span>
     </div>
 
@@ -35,7 +35,16 @@ const props = defineProps({
     type: {
         type: String,
         default: 'text'
+    },
+    inputClass: {
+        type: String,
+        default: ''
     }
+})
+
+
+const classes = computed(() => {
+    return props.inputClass += props.icon ? ' pe-9' : ''
 })
 
 </script>
