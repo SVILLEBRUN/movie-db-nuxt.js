@@ -1,8 +1,9 @@
 <template>
-    <div class="bg-gray-800 sticky top-0 z-50">
+    <div class="bg-gray-700 sticky top-0 z-50">
         <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-            <NuxtLink class="block text-white font-bold text-4xl" to="/">
-                MES FILMS
+            <NuxtLink class="flex gap-2 items-center text-white font-bold text-3xl" to="/">
+                <span>MOVIES</span>
+                <img src="/public/logo.png" style="height:50px;width:auto;">
             </NuxtLink>
 
             <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
