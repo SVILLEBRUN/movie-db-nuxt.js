@@ -1,0 +1,127 @@
+<template>
+    <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
+        <aside class="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+            <img
+                src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+                class="absolute inset-0 h-full w-full object-cover"
+            />
+        </aside>
+    
+        <main
+            class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
+        >
+            <div class="max-w-xl lg:max-w-3xl w-full">
+                <img src="/public/logo.png" style="height:70px;width:auto;">
+                <h1 class="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+                    <span>Bienvenue sur Movies 🚀</span>
+                </h1>
+        
+                <p class="mt-4 leading-relaxed text-gray-500">
+                    Inscrivez-vous pour obtenir un compte
+                </p>
+        
+                <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="FirstName" class="block text-sm font-medium text-gray-700">
+                            Prénom
+                        </label>
+
+                        <BaseInput 
+                            v-model="first_name"
+                            type="text"
+                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
+                            required
+                        />
+                    </div>
+            
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="LastName" class="block text-sm font-medium text-gray-700">
+                            Nom
+                        </label>
+            
+                        <BaseInput 
+                            v-model="last_name"
+                            type="text"
+                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
+                            required
+                        />
+                    </div>
+            
+                    <div class="col-span-6">
+                        <label for="Email" class="block text-sm font-medium text-gray-700"> Email </label>
+            
+                        <BaseInput
+                            v-model="email"
+                            class="mt-1"
+                            type="email" 
+                            icon="ic:baseline-alternate-email" 
+                            icon-size="15"
+                            input-class="w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
+                            required
+                        />
+                    </div>
+            
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="Password" class="block text-sm font-medium text-gray-700"> Mot de passe </label>
+            
+                        <BaseInput 
+                            v-model="password"
+                            type="password"
+                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
+                            required
+                        />
+                    </div>
+            
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="PasswordConfirmation" class="block text-sm font-medium text-gray-700">
+                            Confirmation du mot de passe
+                        </label>
+            
+                        <BaseInput 
+                            v-model="password_conformation"
+                            type="password"
+                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
+                            required
+                        />
+                    </div>
+            
+                    <div class="col-span-6">
+                        <p class="text-sm text-gray-500">
+                            En créant un compte, vous acceptez
+                            <a href="#" class="text-gray-700 underline"> nos conditions générales </a>
+                            et
+                            <a href="#" class="text-gray-700 underline">notre politique de confidentialité</a>.
+                        </p>
+                    </div>
+            
+                    <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+                        <button
+                            type="submit"
+                            class="inline-block shrink-0 rounded-md border bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden"
+                        >
+                            Créer un compte
+                        </button>
+            
+                        <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                            Vous avez deja un compte?
+                            <a href="/login" class="text-gray-700 underline">Se connecter</a>.
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</template>
+
+<script setup>
+definePageMeta({
+    layout: 'login'
+})
+
+const first_name = ref('')
+const last_name = ref('')
+const email = ref('')
+const password = ref('')
+const password_conformation = ref('')
+
+</script>
