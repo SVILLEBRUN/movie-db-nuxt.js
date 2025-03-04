@@ -7,7 +7,7 @@
 
             <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
                 <!-- Search bar large media -->
-                <div class="w-full hidden sm:block">
+                <div class="hidden sm:block flex-grow">
                     <BaseInput v-model="query" @keyup.enter="search()" placeholder="Rechercher un film" icon="eva:search-outline"/>
                 </div>
                 <div class="flex items-center gap-4">
@@ -16,14 +16,14 @@
                             class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
                             to="/login"
                         >
-                            Login
+                            Se connecter
                         </NuxtLink>
 
                         <NuxtLink
                             class="hidden rounded-md px-5 py-2.5 text-sm font-medium transition sm:block dark:bg-gray-900 text-white hover:text-white/75"
                             href="/register"
                         >
-                            Register
+                            S'inscrire
                         </NuxtLink>
                     </div>
 

@@ -11,7 +11,7 @@
         <!-- Footer -->
         <div class="bg-gray-800 text-white">
             <div class="px-4 sm:px-6 lg:px-8 py-2">
-                <div>A small footer is coming soon 🚀</div>
+                <div>Un petit footer arrive bientôt 🚀</div>
             </div>
         </div>
     </div>
