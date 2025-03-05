@@ -13,5 +13,8 @@ export default defineNuxtConfig({
     modules: [
         '@nuxt/icon',
         '@pinia/nuxt'
-    ]
+    ],
+    devServer: {
+        port: 3003
+    }
 })
