@@ -1,0 +1,13 @@
+services:
+    movie-db-nuxt:
+        container_name: movie-db-nuxt
+        build:
+            context: .
+            target: development-stage
+            # target: production-stage
+        ports:
+            - 3003:3003
+        restart: always
+        volumes:
+            - .:/app
+        
