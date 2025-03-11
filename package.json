@@ -19,6 +19,8 @@
     "vue-router": "latest"
   },
   "devDependencies": {
+    "@iconify-json/eva": "^1.2.1",
+    "@iconify-json/ic": "^1.2.2",
     "@nuxt/icon": "^1.10.3"
   }
 }

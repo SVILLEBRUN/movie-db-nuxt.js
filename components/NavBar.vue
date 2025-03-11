@@ -18,7 +18,7 @@
                     />
                 </div>
                 <div class="flex items-center gap-4">
-                    <div class="sm:flex sm:gap-4">
+                    <div v-if="!authStore.isLoggedIn" class="sm:flex sm:gap-4">
                         <NuxtLink
                             class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
                             to="/login"
@@ -32,6 +32,14 @@
                         >
                             S'inscrire
                         </NuxtLink>
+                    </div>
+                    <div v-else class="sm:flex sm:gap-4">
+                        <button
+                            class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
+                            @click="logout()"
+                        >
+                            Se deconnecter
+                        </button>
                     </div>
 
                     <!-- Bouton de menu au cas ou j'en ai besoins -->
@@ -69,6 +77,10 @@
 const query = ref('');
 
 const router = useRouter()
+
+const authStore = useAuthStore();
+
+const { logout } = useAuth();
 
 const search = () => {
     // Function to search data (person / movie) 

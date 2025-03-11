@@ -20,7 +20,7 @@
                     Inscrivez-vous pour obtenir un compte
                 </p>
         
-                <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+                <form @submit.prevent="handleRegister()" class="mt-8 grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label for="FirstName" class="block text-sm font-medium text-gray-700">
                             Prénom
@@ -115,7 +115,8 @@
 
 <script setup>
 definePageMeta({
-    layout: 'login'
+    layout: 'login',
+    middleware: 'auth'
 })
 
 const first_name = ref('')
@@ -123,5 +124,33 @@ const last_name = ref('')
 const email = ref('')
 const password = ref('')
 const password_conformation = ref('')
+
+const user_data = computed(() => {
+    return {
+        email: email.value,
+        first_name: first_name.value,
+        last_name: last_name.value,
+        password: password.value,
+        password_conformation: password_conformation.value
+    }
+})
+
+const { register } = useAuth();
+const handleRegister = async () => {
+    try {
+        if(password.value != password_conformation.value) {
+            console.error("Password does not match")
+        }
+        const response = await register(user_data.value)
+    } catch (err) {
+        if(err.response?.status === 409) {
+            // TODO: Handle email already exists
+            // Display errors in the form and alert 
+        } else {
+            // TODO: Handle other errors 
+            // Display errors in alert like : "Sorry, something went wrong please try again later"
+        }
+    }  
+}
 
 </script>
