@@ -1,6 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import tailwindcss from "@tailwindcss/vite";
-
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
     devtools: { enabled: true },
@@ -8,14 +6,9 @@ export default defineNuxtConfig({
     plugins: [
         '~/plugins/api.ts',
     ],
-    vite: {
-        plugins: [
-            tailwindcss(),
-        ]
-    },
     modules: [
-        '@nuxt/icon',
-        '@pinia/nuxt'
+        '@pinia/nuxt', 
+        '@nuxt/ui'
     ],
     devServer: {
         port: 3003
