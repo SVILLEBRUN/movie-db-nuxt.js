@@ -1,39 +1,30 @@
 <template>
-    <div class="bg-gray-700 sticky top-0 z-50">
+    <div class="sticky top-0 z-50 bg-(--ui-bg-elevated)">
         <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-            <NuxtLink class="flex gap-2 items-center text-white font-bold text-3xl" to="/">
+            <NuxtLink class="flex gap-2 items-center font-bold text-3xl" to="/">
                 <span>MOVIES</span>
-                <img src="/public/logo.png" style="height:50px;width:auto;">
+                <AppLogo svg-class="fill-(--ui-primary)" svg-height="50" svg-width="50"></AppLogo>
             </NuxtLink>
 
             <div class="flex flex-1 items-center justify-end md:justify-between gap-8">
                 <!-- Search bar large media -->
                 <div class="hidden sm:block flex-grow">
-                    <BaseInput 
-                        v-model="query" 
-                        @keyup.enter="search()" 
-                        placeholder="Rechercher un film" 
-                        icon="eva:search-outline"
-                        input-class="bg-white rounded-full py-2 px-3 w-full"
+                    <UInput 
+                        v-model="query"
+                        @keyup.enter="search()"
+                        placeholder="Rechercher un film ..."
+                        trailing-icon="eva:search-outline"
+                        class="w-full"
+                        size="xl"
                     />
                 </div>
                 <div class="flex items-center gap-4">
                     <div v-if="!authStore.isLoggedIn" class="sm:flex sm:gap-4">
-                        <NuxtLink
-                            class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
-                            to="/login"
-                        >
-                            Se connecter
-                        </NuxtLink>
-
-                        <NuxtLink
-                            class="hidden rounded-md px-5 py-2.5 text-sm font-medium transition sm:block dark:bg-gray-900 text-white hover:text-white/75"
-                            href="/register"
-                        >
-                            S'inscrire
-                        </NuxtLink>
+                        <UButton to="/login" label="Se connecter" class="px-5 py-2.5"/>
+                        <UButton to="/register" label="S'inscrire" class="px-5 py-2.5" variant="outline" color="neutral"/>
                     </div>
                     <div v-else class="sm:flex sm:gap-4">
+                        <!-- TODO: Move to the avatar button -->
                         <button
                             class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
                             @click="logout()"
@@ -41,10 +32,14 @@
                             Se deconnecter
                         </button>
                     </div>
+                    <div>
+                        <BaseColorModeButton />
+                    </div>
 
-                    <!-- Bouton de menu au cas ou j'en ai besoins -->
-                    <!-- <button
-                        class="block rounded-sm p-2.5 transition md:hidden text-white hover:text-white/75"
+                    <!-- TODO: Change to avatar -->
+                    <button
+                        v-if="authStore.isLoggedIn"
+                        class="block rounded-sm p-2.5 transition text-white hover:text-white/75"
                     >
                         <span class="sr-only">Toggle menu</span>
                         <svg
@@ -57,7 +52,7 @@
                         >
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
-                    </button> -->
+                    </button>
                 </div>
             </div>
         </div>
@@ -74,6 +69,8 @@
 </template>
 
 <script setup>
+import auth from '~/middleware/auth';
+
 const query = ref('');
 
 const router = useRouter()

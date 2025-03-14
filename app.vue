@@ -1,14 +1,15 @@
 <template>
-    <div>
+    <UApp>
         <NuxtLayout>
             <NuxtPage />
         </NuxtLayout>
-    </div>
+    </UApp>
 </template>
 
 <script setup>
+const { checkAuth } = useAuth()
+
 onMounted(() => {
-    const { checkAuth } = useAuth()
     // Check auth every 10 minutes
     const interval = setInterval(() => {
         checkAuth()
@@ -17,6 +18,4 @@ onMounted(() => {
         clearInterval(interval)
     })
 })
-
-
 </script>

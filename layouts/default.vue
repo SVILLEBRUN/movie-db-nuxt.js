@@ -4,14 +4,14 @@
         <NavBar />
 
         <!-- Main -->
-        <div class="bg-slate-900 relative text-white flex-grow">
+        <div class="relative flex-grow">
             <slot />
         </div>
 
         <!-- Footer -->
-        <div class="bg-gray-800 text-white">
+        <div class="bg-(--ui-bg-elevated)">
             <div class="px-4 sm:px-6 lg:px-8 py-2">
-                <div>Un petit footer arrive bientôt 🚀</div>
+                <div class="color-primary">Un petit footer arrive bientôt 🚀</div>
             </div>
         </div>
     </div>

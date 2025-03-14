@@ -1,7 +1,7 @@
 <template>
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 w-full">
         <div class="mx-auto max-w-lg">
-            <img src="/public/logo.png" style="height:70px;width:auto;" class="mx-auto">
+            <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70" class="mx-auto"></AppLogo>
             <h1 class="text-center text-2xl font-bold text-gray-800 sm:text-3xl">Content de vous revoir 🚀</h1>
 
             <form @submit.prevent="handleLogin()" class="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 text-gray-700">
