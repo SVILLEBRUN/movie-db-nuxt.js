@@ -32,6 +32,7 @@
                             Se deconnecter
                         </button>
                     </div>
+                    <!-- TODO: Move the color mode in the settings page -->
                     <div>
                         <BaseColorModeButton />
                     </div>
