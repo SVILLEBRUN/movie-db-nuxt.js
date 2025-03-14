@@ -1,0 +1,63 @@
+/* 
+    Text colors
+*/
+.text-dimmed {
+    color: var(--ui-text-dimmed);
+}
+.text-muted {
+    color: var(--ui-text-muted);
+}
+
+.text-toned {
+    color: var(--ui-text-toned);
+}
+
+.text-higlighted {
+    color: var(--ui-text-highlighted);
+}
+
+
+
+/* 
+    Background colors
+*/
+.bg-muted {
+    background-color: var(--ui-bg-muted);
+}
+
+.bg-elevated {
+    background-color: var(--ui-bg-elevated);
+}
+
+.bg-accented {
+    background-color: var(--ui-bg-accented);
+}
+
+.bg-inverted {
+    background-color: var(--ui-bg-inverted);
+}
+
+
+
+/* 
+    Border colors
+*/
+:root {
+    --ui-border: var(--ui-color-neutral-300);
+}
+
+.dark {
+    --ui-border: var(--ui-color-neutral-500);
+}
+
+.border-muted {
+    border-color: var(--ui-border-muted);
+}
+
+.border-accented {
+    border-color: var(--ui-border-accented);
+}
+
+.border-inverted {
+    border-color: var(--ui-border-inverted);
+}
