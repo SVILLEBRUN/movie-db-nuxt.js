@@ -20,7 +20,7 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <div v-if="!authStore.isLoggedIn" class="sm:flex sm:gap-4">
-                        <UButton to="/login" label="Se connecter" class="px-5 py-2.5 border-none"/>
+                        <UButton to="/login" label="Se connecter" class="px-5 py-2.5"/>
                         <UButton to="/register" label="S'inscrire" class="px-5 py-2.5 hidden sm:block" variant="outline" color="neutral"/>
                     </div>
                     <div v-else class="sm:flex sm:gap-4">
