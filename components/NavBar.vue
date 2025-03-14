@@ -20,8 +20,8 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <div v-if="!authStore.isLoggedIn" class="sm:flex sm:gap-4">
-                        <UButton to="/login" label="Se connecter" class="px-5 py-2.5"/>
-                        <UButton to="/register" label="S'inscrire" class="px-5 py-2.5" variant="outline" color="neutral"/>
+                        <UButton to="/login" label="Se connecter" class="px-5 py-2.5 border-none"/>
+                        <UButton to="/register" label="S'inscrire" class="px-5 py-2.5 hidden sm:block" variant="outline" color="neutral"/>
                     </div>
                     <div v-else class="sm:flex sm:gap-4">
                         <!-- TODO: Move to the avatar button -->
@@ -57,12 +57,13 @@
             </div>
         </div>
         <div class="w-full sm:hidden px-2 mb-2">
-            <BaseInput 
-                v-model="query" 
-                @keyup.enter="search()" 
-                placeholder="Rechercher un film" 
-                icon="eva:search-outline"
-                input-class="bg-white rounded-full py-1 px-3 w-full"
+            <UInput 
+                v-model="query"
+                @keyup.enter="search()"
+                placeholder="Rechercher un film ..."
+                trailing-icon="eva:search-outline"
+                class="w-full"
+                size="xl"
             />
         </div>
     </div>
