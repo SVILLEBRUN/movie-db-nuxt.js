@@ -1,156 +1,256 @@
 <template>
     <div class="lg:grid lg:min-h-screen lg:grid-cols-12">
-        <aside class="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
+        <div class="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
             <img
                 src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
                 class="absolute inset-0 h-full w-full object-cover"
             />
-        </aside>
-    
-        <main
-            class="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6"
-        >
-            <div class="max-w-xl lg:max-w-3xl w-full">
-                <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70"></AppLogo>
-                <h1 class="mt-1 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-                    <span>Bienvenue sur Movies 🚀</span>
-                </h1>
-        
-                <p class="mt-4 leading-relaxed text-gray-500">
-                    Inscrivez-vous pour obtenir un compte
-                </p>
-        
-                <form @submit.prevent="handleRegister()" class="mt-8 grid grid-cols-6 gap-6">
-                    <div class="col-span-6 sm:col-span-3">
-                        <label for="FirstName" class="block text-sm font-medium text-gray-700">
-                            Prénom
-                        </label>
+        </div>
 
-                        <BaseInput 
-                            v-model="first_name"
-                            type="text"
-                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
-                            required
-                        />
-                    </div>
-            
+        <div class="flex items-center justify-center text-sm sm:text-base px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+            <div class="max-w-xl lg:max-w-3xl w-full">
+                <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70" class="hidden sm:block"></AppLogo>
+                <AppLogo svg-class="fill-(--ui-primary)" svg-height="50" svg-width="50" class="sm:hidden"></AppLogo>
+                <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl mt-1">Bienvenue sur Movies 🚀</h1>
+
+                <p class="mt-4 text-dimmed">Inscrivez-vous pour obtenir un compte</p>
+
+                <UAlert
+                    v-if="error.active"
+                    class="mb-3"
+                    color="error"
+                    variant="subtle"
+                    :title="error.message"
+                    close
+                    @update:open="(event) => { error.active = event }"
+                /> 
+
+                <UForm @submit="onSubmitRegister" :schema="schema" :state="user_data" class="mt-8 grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="LastName" class="block text-sm font-medium text-gray-700">
-                            Nom
-                        </label>
-            
-                        <BaseInput 
-                            v-model="last_name"
-                            type="text"
-                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
-                            required
-                        />
+                        <UFormField label="Prénom" name="first_name" required size="xl">
+                            <UInput
+                                    v-model="user_data.first_name"
+                                    type="text" 
+                                    autofocus
+                                    size="xl"
+                                    class="w-full"
+                                    required
+                                >
+                            </UInput>
+                        </UFormField>
+
                     </div>
-            
+                    <div class="col-span-6 sm:col-span-3">
+                        <UFormField label="Nom" name="last_name" required size="xl">
+                            <UInput
+                                v-model="user_data.last_name"
+                                type="text"
+                                size="xl"
+                                class="w-full"
+                                required
+                            >
+                            </UInput>
+                        </UFormField>
+                    </div>
+
                     <div class="col-span-6">
-                        <label for="Email" class="block text-sm font-medium text-gray-700"> Email </label>
-            
-                        <BaseInput
-                            v-model="email"
-                            class="mt-1"
-                            type="email" 
-                            icon="ic:baseline-alternate-email" 
-                            :icon-size="15"
-                            input-class="w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
-                            required
-                        />
+                        <UFormField label="Email" name="email" required size="xl">
+                            <UInput
+                                v-model="user_data.email"
+                                type="email"
+                                size="xl"
+                                class="w-full"
+                                required
+                            >
+                            </UInput>
+                        </UFormField>
                     </div>
-            
+
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="Password" class="block text-sm font-medium text-gray-700"> Mot de passe </label>
-            
-                        <BaseInput 
-                            v-model="password"
-                            type="password"
-                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
-                            required
-                        />
+                        <UFormField label="Mot de passe" name="password" required size="xl">
+                            <UInput
+                                v-model="user_data.password"
+                                :type="passwordVidible ? 'text' : 'password'"
+                                :color="color"
+                                :aria-invalid="score < 4"
+                                aria-describedby="password-strength"
+                                :ui="{ trailing: 'pe-1' }"
+                                class="w-full"
+                                size="xl"
+                            >
+                                <template #trailing>
+                                    <UButton
+                                        color="neutral"
+                                        variant="link"
+                                        :icon="passwordVidible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                                        :aria-label="passwordVidible ? 'Hide password' : 'Show password'"
+                                        :aria-pressed="passwordVidible"
+                                        aria-controls="password"
+                                        @click="passwordVidible = !passwordVidible"
+                                    />
+                                </template>
+                            </UInput>
+                            <UProgress
+                                :color="color"
+                                :indicator="text"
+                                :model-value="score"
+                                :max="4"
+                                size="sm"
+                                class="mt-1"
+                            />
+                            <p id="password-strength" class="text-sm font-medium text-dimmed">
+                                {{ text }}. Must contain:
+                            </p>
+                            <ul class="space-y-1" aria-label="Password requirements">
+                                <li
+                                    v-for="(req, index) in strength"
+                                    :key="index"
+                                    class="flex items-center gap-0.5"
+                                    :class="req.met ? 'text-(--ui-success)' : 'text-(--ui-text-muted)'"
+                                >
+                                    <UIcon :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'" class="size-4 shrink-0" />
+
+                                    <span class="text-xs font-light">
+                                        {{ req.text }}
+                                        <span class="sr-only">
+                                            {{ req.met ? ' - Requirement met' : ' - Requirement not met' }}
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </UFormField>
                     </div>
-            
+
                     <div class="col-span-6 sm:col-span-3">
-                        <label for="PasswordConfirmation" class="block text-sm font-medium text-gray-700">
-                            Confirmation du mot de passe
-                        </label>
-            
-                        <BaseInput 
-                            v-model="password_conformation"
-                            type="password"
-                            input-class="mt-1 w-full rounded-lg border-gray-200 border px-3 py-2 text-sm text-gray-700"
-                            required
-                        />
+                        <UFormField label="Confirmer le mot de passe" name="password_confirmation" required class="mb-6" size="xl">
+                            <UInput
+                                v-model="user_data.password_confirmation"
+                                type="password"
+                                size="xl"
+                                class="w-full"
+                                required
+                            >
+                            </UInput>
+                        </UFormField>
                     </div>
-            
+
                     <div class="col-span-6">
-                        <p class="text-sm text-gray-500">
+                        <p class="text-xs sm:text-sm text-dimmed">
                             En créant un compte, vous acceptez
-                            <a href="#" class="text-gray-700 underline"> nos conditions générales </a>
+                            <a href="#" class="text-toned underline"> nos conditions générales </a>
                             et
-                            <a href="#" class="text-gray-700 underline">notre politique de confidentialité</a>.
+                            <a href="#" class="text-toned underline">notre politique de confidentialité</a>.
                         </p>
                     </div>
-            
+
                     <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
-                        <button
-                            type="submit"
-                            class="inline-block shrink-0 rounded-md border bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:ring-3 focus:outline-hidden"
-                        >
-                            Créer un compte
-                        </button>
+                        <UButton type="submit" class="flex items-center justify-center px-8" size="xl" color="success"><div>Créer un compte</div></UButton>
             
-                        <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                        <p class="mt-4 text-sm sm:mt-0 text-dimmed">
                             Vous avez deja un compte?
-                            <a href="/login" class="text-gray-700 underline">Se connecter</a>.
+                            <a href="/login" class="text-toned underline">Se connecter</a>.
                         </p>
                     </div>
-                </form>
+                </UForm>
             </div>
-        </main>
+        </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
+import type { User } from '~/types'
+
 definePageMeta({
     layout: 'login',
     middleware: 'auth'
 })
 
-const first_name = ref('')
-const last_name = ref('')
-const email = ref('')
-const password = ref('')
-const password_conformation = ref('')
+const passwordVidible = ref(false)
 
-const user_data = computed(() => {
-    return {
-        email: email.value,
-        first_name: first_name.value,
-        last_name: last_name.value,
-        password: password.value,
-        password_conformation: password_conformation.value
-    }
+const schema = z.object({
+    first_name: z.string().min(1, { message: 'Le prenom est obligatoire' }),
+    last_name: z.string().min(1, { message: 'Le nom est obligatoire' }),
+    email: z.string().email({ message: 'L\'email n\'est pas valide' }),
+    password: z.string()
+        .min(8, { message: ' ' })
+        .regex(/[0-9]/, { message: ' ' })
+        .regex(/[a-z]/, { message: ' ' })
+        .regex(/[A-Z]/, { message: ' ' }),
+    password_confirmation: z.string()
+}).refine((data) => data.password === data.password_confirmation, {
+    message: 'Les mots de passe ne correspondent pas',
+    path: ['password_confirmation']
+})
+
+type Schema = z.output<typeof schema>
+
+const user_data = reactive<Partial<Schema>>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: ''
+})
+
+const error = reactive({
+    active: false,
+    message: ''
 })
 
 const { register } = useAuth();
-const handleRegister = async () => {
+
+async function onSubmitRegister(event: FormSubmitEvent<Schema>) {
     try {
-        if(password.value != password_conformation.value) {
-            console.error("Password does not match")
+        const user:User = {
+            first_name: user_data.first_name as string,
+            last_name: user_data.last_name as string,
+            email: user_data.email as string,
+            password: user_data.password as string
         }
-        const response = await register(user_data.value)
-    } catch (err) {
+
+        await register(user)
+    } catch (err:any) {
         if(err.response?.status === 409) {
-            // TODO: Handle email already exists
-            // Display errors in the form and alert 
+            error.active = true
+            error.message = 'Un compte existe deja avec cette adresse email'
         } else {
-            // TODO: Handle other errors 
-            // Display errors in alert like : "Sorry, something went wrong please try again later"
+            error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+            error.active = true
         }
     }  
 }
+
+
+function checkStrength(str: string | undefined) {
+    if (!str) str = ''
+    const requirements = [
+        { regex: /.{8,}/, text: 'At least 8 characters' },
+        { regex: /\d/, text: 'At least 1 number' },
+        { regex: /^(?=.*[a-z])(?=.*[A-Z]).*$/, text: 'At least 1 lowercase letter and 1 uppercase letter' },
+        { regex: /^(?=.*[^\w\d]).*$/, text: 'At least 1 special character' }
+    ]
+
+    return requirements.map(req => ({ met: req.regex.test(str), text: req.text }))
+}
+
+const strength = computed(() => checkStrength(user_data.password))
+const score = computed(() => strength.value.filter(req => req.met).length)
+
+const color = computed(() => {
+    if (score.value === 0) return 'neutral'
+    if (score.value <= 1) return 'error'
+    if (score.value <= 2) return 'warning'
+    if (score.value === 3) return 'warning'
+    return 'success'
+})
+
+const text = computed(() => {
+    if (score.value === 0) return 'Enter a password'
+    if (score.value <= 2) return 'Weak password'
+    if (score.value === 3) return 'Medium password'
+    return 'Strong password'
+})
 
 </script>

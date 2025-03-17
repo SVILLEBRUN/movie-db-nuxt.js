@@ -1,68 +1,79 @@
 <template>
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 w-full">
         <div class="mx-auto max-w-lg">
-            <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70" class="mx-auto"></AppLogo>
-            <h1 class="text-center text-2xl font-bold text-gray-800 sm:text-3xl">Content de vous revoir 🚀</h1>
+            <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70" class="mx-auto hidden sm:block"></AppLogo>
+            <AppLogo svg-class="fill-(--ui-primary)" svg-height="50" svg-width="50" class="mx-auto sm:hidden"></AppLogo>
 
-            <form @submit.prevent="handleLogin()" class="mt-6 mb-0 space-y-4 rounded-lg p-4 shadow-lg sm:p-6 lg:p-8 text-gray-700">
-                <p class="mx-auto mt-4 max-w-md text-center text-gray-500">
-                    Connectez-vous à votre compte Movies
-                </p>
-                <div>
-                    <div class="font-semibold text-sm">Email</div>
+            <h1 class="text-center text-2xl font-bold sm:text-3xl">Content de vous revoir &nbsp 🚀</h1>
 
-                    <div class="relative">
-                        <BaseInput 
-                            v-model="email"
-                            type="email" 
-                            icon="ic:baseline-alternate-email" 
-                            :icon-size="15"
-                            input-class="w-full rounded-lg border-gray-200 border px-4 py-3 text-sm"
-                            required
-                            autofocus
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <div class="font-semibold text-sm">Mot de passe</div>
-
-                    <div class="relative">
-                        <BaseInput
-                            v-model="password"
-                            :type="passwordVidible ? 'text' : 'password'"
-                            input-class="w-full rounded-lg border-gray-200 border px-4 py-3 text-sm"
-                            required
-                        >
-                            <template #icon>
-                                <Icon 
-                                    @click="passwordVidible = !passwordVidible"
-                                    :name="passwordVidible ? 'eva:eye-off-outline' : 'eva:eye-outline'" 
-                                    size="17" 
-                                    class="cursor-pointer"
-                                />
-                            </template>
-                        </BaseInput>
-                    </div>
-                </div>
-
-                <button
-                    type="submit"
-                    class="inline-block shrink-0 rounded-md border bg-indigo-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-indigo-600 focus:ring-3 focus:outline-hidden"
-                >
-                    Se connecter
-                </button>
-
-                <p class="text-center text-sm text-gray-500">
-                    Pas de compte ?
-                    <NuxtLink class="underline" href="/register" >S'inscrire</NuxtLink>
-                </p>
-            </form>
+            <div class="text-sm sm:text-base mt-6 mb-0 px-4 sm:px-6 lg:px-8">
+                <UAlert
+                    v-if="error.active"
+                    class="mb-3"
+                    color="error"
+                    variant="subtle"
+                    :title="error.message"
+                    close
+                    @update:open="(event) => { error.active = event }"
+                /> 
+                <UCard>
+                    <UForm @submit="onSubmitLogin"  :state="credentials">
+                        <p class="mx-auto mb-4 text-center text-dimmed">
+                            Connectez-vous à votre compte Movies
+                        </p>
+                        <UFormField label="Email" name="email" class="mb-6" size="xl">
+                            <UInput
+                                v-model="credentials.email"
+                                type="email" 
+                                autofocus
+                                size="xl"
+                                class="w-full"
+                            >
+                                <template #trailing>
+                                    <UIcon name="i-lucide-at-sign" color="neutral" class="text-muted"/>
+                                </template>
+                            </UInput>
+                        </UFormField>
+                        
+                        <div class="space-y-2 mb-10">
+                            <UFormField label="Mot de passe" name="password" size="xl">
+                                <UInput
+                                    v-model="credentials.password"
+                                    :type="passwordVidible ? 'text' : 'password'"
+                                    :ui="{ trailing: 'pe-1' }"
+                                    class="w-full"
+                                    size="xl"
+                                >
+                                    <template #trailing>
+                                        <UButton
+                                            color="neutral"
+                                            variant="link"
+                                            :icon="passwordVidible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+                                            :aria-label="passwordVidible ? 'Hide password' : 'Show password'"
+                                            :aria-pressed="passwordVidible"
+                                            aria-controls="password"
+                                            @click="passwordVidible = !passwordVidible"
+                                        />
+                                    </template>
+                                </UInput>
+                                <template #hint>
+                                    <ULink to="/password_reset" class="underline text-sm text-dimmed">Mot de passe oublié ?</ULink>
+                                </template>
+                            </UFormField>
+                        </div>
+                        <UButton type="submit" class="w-full flex items-center justify-center" size="lg" color="success"><div>Se connecter</div></UButton>
+                    </UForm>
+                    <p class="text-center text-sm text-dimmed mt-2">
+                        Pas de compte ?
+                        <ULink to="/register" class="underline">S'inscrire</ULink>
+                    </p>
+                </UCard>
+            </div>
         </div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 definePageMeta({
     layout: 'login',
     middleware: 'auth'
@@ -70,31 +81,30 @@ definePageMeta({
 
 const passwordVidible = ref(false)
 
-const password = ref('')
-const email = ref('')
-
-const credentials = computed(() => {
-    return {
-        email: email.value,
-        password: password.value
-    }
-})
-
 const { login } = useAuth();
 
-const handleLogin = async () => {
+const error = reactive({
+    active: false,
+    message: ''
+})
+
+const credentials = reactive({
+    email: '' as string,
+    password: '' as string
+})
+
+async function onSubmitLogin() {
     try {
-        await login(credentials.value)
-    } catch (err) {
+        await login(credentials)
+    } catch (err:any) {
         if(err.response?.status === 401) {
-            // TODO: Handle email already exists
-            // Display errors in the form and alert 
+            error.message = 'Email ou mot de passe incorrect'
+            error.active = true
         } else {
-            // TODO: Handle other errors 
-            // Display errors in alert like : "Sorry, something went wrong please try again later"
+            error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+            error.active = true
         }
     }
 }
-
 
 </script>

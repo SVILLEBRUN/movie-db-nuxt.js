@@ -7,8 +7,10 @@ export const useAuth = () => {
 
     const register = async (user_data:User) => {
         try {
-            await $api.post('/api/auth/register', user_data)
+            const response = await $api.post('/api/auth/register', user_data) as any
             navigateTo('/');
+            authStore.isLoggedIn = true
+            authStore.user = response.user
         } catch (error : any) {
             throw error
         }
