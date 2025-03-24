@@ -13,19 +13,35 @@
                 <AppLogo svg-class="fill-(--ui-primary)" svg-height="50" svg-width="50" class="sm:hidden"></AppLogo>
                 <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl mt-1">Bienvenue sur Movies 🚀</h1>
 
-                <p class="mt-4 text-dimmed">Inscrivez-vous pour obtenir un compte</p>
+                <p class="mt-4 mb-4 text-dimmed">Inscrivez-vous pour obtenir un compte</p>
 
                 <UAlert
                     v-if="error.active"
-                    class="mb-3"
+                    class="mb-4"
                     color="error"
                     variant="subtle"
                     :title="error.message"
+                    :actions=" error.status === 409 ? [{
+                        label: 'se connecter',
+                        color: 'error',
+                        variant: 'subtle',
+                        class: 'cursor-pointer',
+                        onClick: () => { navigateTo('/login') }
+                    }] : []"
+                    orientation="horizontal"
                     close
-                    @update:open="(event) => { error.active = event }"
-                /> 
+                    @update:open="(event:boolean) => { error.active = event }"
+                />
 
-                <UForm @submit="onSubmitRegister" :schema="schema" :state="user_data" class="mt-8 grid grid-cols-6 gap-6">
+                <div class="text-center" style="color-scheme: auto;">
+                    <GoogleSignInButton
+                        @success="handleGoogleLoginSuccess"
+                        @error="handleGoogleLoginError"
+                    ></GoogleSignInButton>
+                </div>
+
+
+                <UForm @submit="onSubmitRegister" :schema="schema" :state="user_data" class="grid mt-4 grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <UFormField label="Prénom" name="first_name" required size="xl">
                             <UInput
@@ -161,6 +177,7 @@
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { User } from '~/types'
+import type { CredentialResponse } from "vue3-google-signin";
 
 definePageMeta({
     layout: 'login',
@@ -196,10 +213,11 @@ const user_data = reactive<Partial<Schema>>({
 
 const error = reactive({
     active: false,
+    status: 0,
     message: ''
 })
 
-const { register } = useAuth();
+const { register, google_register } = useAuth();
 
 async function onSubmitRegister(event: FormSubmitEvent<Schema>) {
     try {
@@ -212,14 +230,37 @@ async function onSubmitRegister(event: FormSubmitEvent<Schema>) {
 
         await register(user)
     } catch (err:any) {
-        if(err.response?.status === 409) {
-            error.active = true
-            error.message = 'Un compte existe deja avec cette adresse email'
-        } else {
-            error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
-            error.active = true
-        }
+        loginErrors(err)
     }  
+}
+
+
+async function handleGoogleLoginSuccess(response:CredentialResponse) {
+    try {
+        const { credential } = response;
+        if(!credential) return
+        await google_register(credential)
+    } catch(err:any) {
+        loginErrors(err)
+    }
+}
+
+
+function handleGoogleLoginError(err:any) {
+    console.log(err)
+    loginErrors({})
+}
+
+function loginErrors (err:any) {
+    if(err.response?.status === 409) {
+        error.message = 'Un compte existe deja avec cette adresse email'
+        error.status = 409
+        error.active = true
+    } else {
+        error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+        error.status = 0
+        error.active = true
+    }
 }
 
 

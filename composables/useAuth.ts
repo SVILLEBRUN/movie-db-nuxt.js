@@ -15,6 +15,28 @@ export const useAuth = () => {
             throw error
         }
     }
+
+    const google_register = async (token:string) => {
+        try {
+            const response = await $api.post('/api/auth/google-register', { token }) as any
+            navigateTo('/');
+            authStore.isLoggedIn = true
+            authStore.user = response.user
+        } catch (error : any) {
+            throw error
+        }
+    }
+
+    const google_login = async (token:string) => {
+        try {
+            const response = await $api.post('/api/auth/google-login', { token }) as any
+            navigateTo('/');
+            authStore.isLoggedIn = true
+            authStore.user = response.user
+        } catch (error : any) {
+            throw error
+        }
+    }
     
     const login = async (credentials: { email: string; password: string }) => {
         try {
@@ -49,7 +71,9 @@ export const useAuth = () => {
 
     return {
         register,
+        google_register,
         login,
+        google_login,
         logout,
         checkAuth
     }

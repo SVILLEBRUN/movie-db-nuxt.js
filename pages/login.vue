@@ -13,14 +13,49 @@
                     color="error"
                     variant="subtle"
                     :title="error.message"
+                    :actions="error.actions ? [{
+                        label: 's\'inscrire',
+                        color: 'error',
+                        variant: 'subtle',
+                        class: 'cursor-pointer',
+                        onClick: () => { navigateTo('/register') }
+                    }] : []"
+                    orientation="horizontal"
                     close
                     @update:open="(event) => { error.active = event }"
-                /> 
+                />
+
+
+                <!-- <UAlert
+                    v-if="error.active"
+                    class="mb-4"
+                    color="error"
+                    variant="subtle"
+                    :title="error.message"
+                    :actions=" error.status === 409 ? [{
+                        label: 'se connecter',
+                        color: 'error',
+                        variant: 'subtle',
+                        onClick: () => { navigateTo('/login') }
+                    }] : []"
+                    orientation="horizontal"
+                    close
+                    @update:open="(event:boolean) => { error.active = event }"
+                /> -->
+
                 <UCard>
                     <UForm @submit="onSubmitLogin"  :state="credentials">
                         <p class="mx-auto mb-4 text-center text-dimmed">
                             Connectez-vous à votre compte Movies
                         </p>
+
+                        <div class="text-center mb-4" style="color-scheme: auto;">
+                            <GoogleSignInButton
+                                @success="handleGoogleLoginSuccess"
+                                @error="handleGoogleLoginError"
+                            ></GoogleSignInButton>
+                        </div>
+
                         <UFormField label="Email" name="email" class="mb-6" size="xl">
                             <UInput
                                 v-model="credentials.email"
@@ -74,6 +109,8 @@
 </template>
 
 <script setup lang="ts">
+import type { CredentialResponse } from "vue3-google-signin";
+
 definePageMeta({
     layout: 'login',
     middleware: 'auth'
@@ -81,10 +118,11 @@ definePageMeta({
 
 const passwordVidible = ref(false)
 
-const { login } = useAuth();
+const { login, google_login } = useAuth();
 
 const error = reactive({
     active: false,
+    actions: false,
     message: ''
 })
 
@@ -99,12 +137,40 @@ async function onSubmitLogin() {
     } catch (err:any) {
         if(err.response?.status === 401) {
             error.message = 'Email ou mot de passe incorrect'
+            error.actions = false
             error.active = true
         } else {
             error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+            error.actions = false
             error.active = true
         }
     }
+}
+
+
+async function handleGoogleLoginSuccess(response:CredentialResponse) {
+    try {
+        const { credential } = response;
+        if(!credential) return
+        await google_login(credential)
+    } catch(err:any) {
+        if(err.response?.status === 401) {
+            error.message = 'Cet identifiant n\'est associé à aucun compte'
+            error.actions = true
+            error.active = true
+        } else {
+            error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+            error.actions = false
+            error.active = true
+        }
+    }
+}
+
+
+function handleGoogleLoginError(err:any) {
+    console.log(err)
+    error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
+    error.active = true
 }
 
 </script>
