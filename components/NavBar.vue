@@ -24,36 +24,26 @@
                         <UButton to="/register" label="S'inscrire" class="px-5 py-2.5 hidden sm:block" variant="outline" color="neutral"/>
                     </div>
                     <div v-else class="sm:flex sm:gap-4">
-                        <!-- TODO: Move to the avatar button -->
-                        <button
-                            class="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white tranqsition hover:bg-teal-500"
-                            @click="logout()"
+                        <UDropdownMenu
+                            :items="avatarMenuItems"
+                            :content="{
+                                align: 'start',
+                                side: 'bottom',
+                                sideOffset: 8
+                            }"
+                            :ui="{
+                                content: 'w-48',
+                            }"
                         >
-                            Se deconnecter
-                        </button>
+                            <UAvatar v-if="authStore.user?.avatar" :src="authStore.user.avatar" size="xl" class="cursor-pointer" />
+                            <UIcon v-else name="i-stash-user-avatar" class="size-10 cursor-pointer" />
+                        </UDropdownMenu>
                     </div>
+
                     <!-- TODO: Move the color mode in the settings page -->
                     <div>
                         <BaseColorModeButton />
                     </div>
-
-                    <!-- TODO: Change to avatar -->
-                    <button
-                        v-if="authStore.isLoggedIn"
-                        class="block rounded-sm p-2.5 transition text-white hover:text-white/75"
-                    >
-                        <span class="sr-only">Toggle menu</span>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="size-5"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                            stroke-width="2"
-                        >
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
                 </div>
             </div>
         </div>
@@ -70,14 +60,15 @@
     </div>
 </template>
 
-<script setup>
-import auth from '~/middleware/auth';
+<script setup lang="ts">
+import type { DropdownMenuItem } from '@nuxt/ui'
 
 const query = ref('');
 
 const router = useRouter()
 
 const authStore = useAuthStore();
+console.log(authStore.user)
 
 const { logout } = useAuth();
 
@@ -92,4 +83,24 @@ const search = () => {
         }
     })
 }
+
+
+const avatarMenuItems = ref<DropdownMenuItem[]>([
+  {
+    label: 'Profile',
+    icon: 'i-lucide-user',
+  },
+//   {
+//     label: 'Billing',
+//     icon: 'i-lucide-credit-card'
+//   },
+  {
+    label: 'Se déconnecter',
+    icon: 'i-lucide-cog',
+    color: 'error',
+    onSelect: () => logout()
+  }
+])
+
+
 </script>
