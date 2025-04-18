@@ -35,8 +35,14 @@
                                 content: 'w-48',
                             }"
                         >
-                            <UAvatar v-if="authStore.user?.avatar" :src="authStore.user.avatar" size="xl" class="cursor-pointer" />
-                            <UIcon v-else name="i-stash-user-avatar" class="size-10 cursor-pointer" />
+                            <UAvatar v-if="authStore.user?.avatar" :src="authStore.user.avatar" size="lg" class="cursor-pointer" />
+                            <UAvatar 
+                                v-else 
+                                :alt="authStore.user?.first_name + ' ' + authStore.user?.last_name" 
+                                size="lg" 
+                                class="cursor-pointer bg-(--ui-primary)" 
+                                :ui="{ fallback: 'text-(--ui-text)' }"
+                            />
                         </UDropdownMenu>
                     </div>
 
