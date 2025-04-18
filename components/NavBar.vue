@@ -26,6 +26,7 @@
                     <div v-else class="sm:flex sm:gap-4">
                         <UDropdownMenu
                             :items="avatarMenuItems"
+                            class="cursor-pointer"
                             :content="{
                                 align: 'start',
                                 side: 'bottom',
@@ -35,13 +36,12 @@
                                 content: 'w-48',
                             }"
                         >
-                            <UAvatar v-if="authStore.user?.avatar" :src="authStore.user.avatar" size="lg" class="cursor-pointer" />
+                            <UAvatar v-if="authStore.user?.avatar" :src="authStore.user.avatar" size="lg" />
                             <UAvatar 
                                 v-else 
                                 :alt="authStore.user?.first_name + ' ' + authStore.user?.last_name" 
                                 size="lg" 
-                                class="cursor-pointer bg-(--ui-primary)" 
-                                :ui="{ fallback: 'text-(--ui-text)' }"
+                                :ui="{ fallback: 'text-(--ui-text) w-full h-full flex items-center justify-center bg-(--ui-primary)' }"
                             />
                         </UDropdownMenu>
                     </div>
