@@ -74,6 +74,7 @@ const query = ref('');
 const router = useRouter()
 
 const authStore = useAuthStore();
+// TODO: remove after testing
 console.log(authStore.user)
 
 const { logout } = useAuth();
