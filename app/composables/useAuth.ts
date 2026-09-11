@@ -1,4 +1,4 @@
-import type { User } from '~/types';
+import type { User } from '~/types'
 import { useAuthStore } from '~/stores/auth';
 
 export const useAuth = () => {

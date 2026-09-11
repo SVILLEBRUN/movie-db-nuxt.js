@@ -75,7 +75,7 @@ const router = useRouter()
 
 const authStore = useAuthStore();
 // TODO: remove after testing
-console.log(authStore.user)
+console.log('[NavBar.vue] user : ', authStore.user)
 
 const { logout } = useAuth();
 
