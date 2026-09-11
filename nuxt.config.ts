@@ -9,15 +9,18 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt', 
         '@nuxt/ui',
-        'nuxt-vue3-google-signin'
+        'nuxt-google-auth'
     ],
     devServer: {
         port: 3003
     },
     runtimeConfig: {
-        myProxyUrl: process.env.API_BASE || 'http://localhost:3000/movie-db-app/api'
+        myProxyUrl: process.env.API_BASE
     },
-    googleSignIn: {
-        clientId: process.env.GOOGLE_CLIENT_ID || 'test'
+    googleAuth: {
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        autoLoadScript: false,
+        promptOneTap: false,
+        enableServerVerify: false
     }
 })

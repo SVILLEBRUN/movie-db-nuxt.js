@@ -34,10 +34,13 @@
                 />
 
                 <div class="text-center" style="color-scheme: auto;">
-                    <GoogleSignInButton
-                        @success="handleGoogleLoginSuccess"
-                        @error="handleGoogleRegisterError"
-                    ></GoogleSignInButton>
+                    <ClientOnly>
+                        <GoogleLoginButton
+                            :options="{ shape: 'pill', theme: 'outline', size: 'medium', text: 'signup_with' }"
+                            @success="handleGoogleRegisterSuccess"
+                            @error="handleGoogleRegisterError"
+                        />
+                    </ClientOnly>
                 </div>
 
 
@@ -177,7 +180,6 @@
 import * as z from 'zod'
 import type { FormSubmitEvent } from '@nuxt/ui'
 import type { User } from '~/types'
-import type { CredentialResponse } from "vue3-google-signin";
 
 definePageMeta({
     layout: 'login',
@@ -235,7 +237,7 @@ async function onSubmitRegister(event: FormSubmitEvent<Schema>) {
 }
 
 
-async function handleGoogleLoginSuccess(response:CredentialResponse) {
+async function handleGoogleRegisterSuccess(response: { credential: string; claims: any }) {
     try {
         const { credential } = response;
         if(!credential) return

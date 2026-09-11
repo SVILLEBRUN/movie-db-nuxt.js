@@ -13,7 +13,7 @@
     "@nuxt/ui": "^4.11.1",
     "@pinia/nuxt": "^1.0.2",
     "nuxt": "^4.5.2",
-    "nuxt-vue3-google-signin": "^0.0.13",
+    "nuxt-google-auth": "^0.1.7",
     "pinia": "^4.0.3",
     "vue": "latest",
     "vue-router": "latest",
@@ -22,6 +22,7 @@
   "devDependencies": {
     "@iconify-json/eva": "^1.2.3",
     "@iconify-json/ic": "^1.2.4",
-    "@iconify-json/lucide": "^1.2.131"
+    "@iconify-json/lucide": "^1.2.131",
+    "@types/node": "^22.20.2"
   }
 }

@@ -50,10 +50,14 @@
                         </p>
 
                         <div class="text-center mb-4" style="color-scheme: auto;">
-                            <GoogleSignInButton
-                                @success="handleGoogleLoginSuccess"
-                                @error="handleGoogleLoginError"
-                            ></GoogleSignInButton>
+                            <ClientOnly>
+                                <GoogleLoginButton
+                                    :options="{ shape: 'pill', theme: 'outline', size: 'medium', text: 'signin_with' }"
+                                    @success="handleGoogleLoginSuccess"
+                                    @error="handleGoogleLoginError"
+                                />
+                            </ClientOnly>
+                            
                         </div>
 
                         <UFormField label="Email" name="email" class="mb-6" size="xl">
@@ -109,7 +113,6 @@
 </template>
 
 <script setup lang="ts">
-import type { CredentialResponse } from "vue3-google-signin";
 
 definePageMeta({
     layout: 'login',
@@ -148,7 +151,7 @@ async function onSubmitLogin() {
 }
 
 
-async function handleGoogleLoginSuccess(response:CredentialResponse) {
+async function handleGoogleLoginSuccess(response: { credential: string; claims: any }) {
     try {
         const { credential } = response;
         if(!credential) return
@@ -168,7 +171,7 @@ async function handleGoogleLoginSuccess(response:CredentialResponse) {
 
 
 function handleGoogleLoginError(err:any) {
-    console.log('[Login.vue] Google Login Error : ', err)
+    console.error('[Login.vue] Google Login Error : ', err)
     error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
     error.active = true
 }
