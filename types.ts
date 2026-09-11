@@ -27,4 +27,7 @@ export interface User {
     first_name: string,
     last_name: string,
     avatar?: string | null,
+    authMethod?: string,
+    createdAt?: string,
+    updatedAt?: string
 }
