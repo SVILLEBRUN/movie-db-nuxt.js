@@ -102,7 +102,7 @@
                                         :aria-label="passwordVidible ? 'Hide password' : 'Show password'"
                                         :aria-pressed="passwordVidible"
                                         aria-controls="password"
-                                        @click="passwordVidible = !passwordVidible"
+                                        @click="() => { passwordVidible = !passwordVidible }"
                                     />
                                 </template>
                             </UInput>
@@ -122,7 +122,7 @@
                                     v-for="(req, index) in strength"
                                     :key="index"
                                     class="flex items-center gap-0.5"
-                                    :class="req.met ? 'text-(--ui-success)' : 'text-(--ui-text-muted)'"
+                                    :class="req.met ? 'text-success' : 'text-muted'"
                                 >
                                     <UIcon :name="req.met ? 'i-lucide-circle-check' : 'i-lucide-circle-x'" class="size-4 shrink-0" />
 

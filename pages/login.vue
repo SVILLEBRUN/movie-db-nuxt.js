@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 w-full">
+    <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 w-full">
         <div class="mx-auto max-w-lg">
             <AppLogo svg-class="fill-(--ui-primary)" svg-height="70" svg-width="70" class="mx-auto hidden sm:block"></AppLogo>
             <AppLogo svg-class="fill-(--ui-primary)" svg-height="50" svg-width="50" class="mx-auto sm:hidden"></AppLogo>
