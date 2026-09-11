@@ -168,7 +168,7 @@ async function handleGoogleLoginSuccess(response:CredentialResponse) {
 
 
 function handleGoogleLoginError(err:any) {
-    console.log(err)
+    console.log('[Login.vue] Google Login Error : ', err)
     error.message = 'Oups, une erreur est survenue. Veuillez réessayer plus tard'
     error.active = true
 }

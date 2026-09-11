@@ -81,7 +81,7 @@ const { logout } = useAuth();
 
 const search = () => {
     // Function to search data (person / movie) 
-    console.log(query.value)
+    console.log('[NavBar.vue] search query : ', query.value)
 
     router.push({
         path: '/search',

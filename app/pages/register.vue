@@ -36,7 +36,7 @@
                 <div class="text-center" style="color-scheme: auto;">
                     <GoogleSignInButton
                         @success="handleGoogleLoginSuccess"
-                        @error="handleGoogleLoginError"
+                        @error="handleGoogleRegisterError"
                     ></GoogleSignInButton>
                 </div>
 
@@ -246,8 +246,8 @@ async function handleGoogleLoginSuccess(response:CredentialResponse) {
 }
 
 
-function handleGoogleLoginError(err:any) {
-    console.log(err)
+function handleGoogleRegisterError(err:any) {
+    console.log('[Register.vue] Google Register error : ', err)
     loginErrors({})
 }
 
