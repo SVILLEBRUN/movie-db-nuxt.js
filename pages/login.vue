@@ -14,7 +14,7 @@
                     variant="subtle"
                     :title="error.message"
                     :actions="error.actions ? [{
-                        label: 's\'inscrire',
+                        label: 'S\'inscrire',
                         color: 'error',
                         variant: 'subtle',
                         class: 'cursor-pointer',
@@ -87,7 +87,7 @@
                                             :aria-label="passwordVidible ? 'Hide password' : 'Show password'"
                                             :aria-pressed="passwordVidible"
                                             aria-controls="password"
-                                            @click="passwordVidible = !passwordVidible"
+                                            @click="() => { passwordVidible = !passwordVidible }"
                                         />
                                     </template>
                                 </UInput>

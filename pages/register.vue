@@ -22,7 +22,7 @@
                     variant="subtle"
                     :title="error.message"
                     :actions=" error.status === 409 ? [{
-                        label: 'se connecter',
+                        label: 'Se connecter',
                         color: 'error',
                         variant: 'subtle',
                         class: 'cursor-pointer',
